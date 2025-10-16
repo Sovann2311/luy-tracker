@@ -1,0 +1,234 @@
+/*
+  Luy Tracker – Modern UI Styles
+  - Subtle glassy cards, soft shadows, smooth transitions
+  - Enhanced forms, tables, buttons, and modals
+  - Uses CSS variables for easy theme tweaks
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+:root {
+  --bg: #fafafa;            /* light gray background */
+  --bg-elev: #ffffff;       /* white */
+  --surface: #ffffff;       /* white surface */
+  --surface-2: #f5f5f5;     /* lighter gray */
+  --border: #e0e0e0;        /* soft border */
+  --text: #1a1a1a;          /* dark text */
+  --muted: #4cb3b5;         /* muted text */
+
+  --primary-400: #2563eb;   /* blue-600 */
+  --primary-500: #1d4ed8;   /* blue-700 */
+  --primary-600: #1e40af;   /* blue-800 */
+  --success: #16a34a;
+  --warning: #ea580c;
+  --danger: #dc2626;
+
+  --radius: 8px;
+  --radius-sm: 6px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --ring: 0 0 0 3px rgba(119, 137, 175, 0.15);
+}
+
+/* Base */
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: var(--bg);
+  color: var(--text);
+}
+
+h1, h3, .modal-title {
+  color: var(--text);
+}
+
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.container.my-5 {
+  margin-top: 2rem !important;
+  margin-bottom: 2rem !important;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 200ms ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Forms */
+label { color: var(--text); font-weight: 600; font-size: 0.9rem; }
+
+.form-control, .custom-select, select.form-control {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.form-control::placeholder {
+  color: #999;
+}
+
+.form-control:focus, .custom-select:focus, select.form-control:focus {
+  background-color: var(--surface);
+  border-color: var(--primary-500);
+  box-shadow: var(--ring);
+}
+
+textarea.form-control {
+  min-height: 110px;
+}
+
+/* Buttons */
+.btn {
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  font-weight: 500;
+  transition: background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.btn-primary {
+  background: var(--primary-500);
+  border-color: var(--primary-500);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-600);
+  border-color: var(--primary-600);
+  color: white;
+}
+
+.btn-success {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.btn-success:hover {
+  background: #15803d;
+  border-color: #15803d;
+  color: white;
+}
+
+.btn-warning {
+  background: var(--warning);
+  border-color: var(--warning);
+  color: white;
+}
+
+.btn-warning:hover {
+  background: #c2410c;
+  border-color: #c2410c;
+  color: white;
+}
+
+.btn-danger {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+  color: white;
+}
+
+/* Tables */
+table.table {
+  color: var(--text);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background:rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.8rem;
+}
+
+.table tbody tr {
+  transition: background-color 160ms ease;
+}
+
+.table-striped tbody tr:nth-of-type(odd),
+.table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.table tbody tr:hover {
+  background-color: rgba(59, 130, 246, 0.10);
+}
+
+.table td, .table th {
+  border-color: rgba(100, 116, 139, 0.2);
+}
+
+/* Modal */
+.modal-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border);
+}
+
+.close, .close span {
+  color: var(--text);
+  text-shadow: none;
+  opacity: 0.6;
+}
+
+.close:hover { opacity: 1; }
+
+/* Helpers */
+.btn-block { box-shadow: var(--shadow-sm); }
+
+#downloadCSV { margin-top: 0.5rem; }
+
+/* Links (if any) */
+a { color: var(--primary-400); }
+a:hover { color: var(--primary-500); text-decoration: none; }
+
+/* Small responsive tweaks */
+@media (max-width: 576px) {
+  .form-row .form-group { margin-bottom: 0.75rem; }
+  h1 { font-size: 1.8rem; }
+}

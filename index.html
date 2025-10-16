@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luy Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- App Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="text-center">Money Tracker</h1>
+        <hr>
+
+        <!-- Expense Form -->
+        <div class="card">
+            <div class="card-header">Add New Expense</div>
+            <div class="card-body">
+                <form id="expenseForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="expenseDate">Date</label>
+                            <input type="date" id="expenseDate" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="expenseAmount">Amount</label>
+                            <input type="number" min="0" max="10000000" step="0.01" id="expenseAmount" class="form-control" placeholder="Enter amount" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="expenseCurrency">Currency</label>
+                            <select id="expenseCurrency" class="form-control">
+                                <option value="USD">USD ($)</option>
+                                <option value="KHR">Riel (៛)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="expenseCategory">Category</label>
+                            <select id="expenseCategory" class="form-control">
+                                <option value="" selected disabled>Please select</option>
+                                <option value="Food">Food &amp; Groceries</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Utilities">Utilities</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="expenseMoneyType">Money Type</label>
+                            <select id="expenseMoneyType" class="form-control">
+                                <option value="" selected disabled>Please select</option>
+                                <option value="Cash">Self-Money</option>
+                                <option value="Bank">House Money</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="expenseType">Expense Type</label>
+                            <select id="expenseType" class="form-control">
+                                <option value="" selected disabled>Please select</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Bank">Bank</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="expenseNote">Description</label>
+                        <textarea id="expenseNote" class="form-control" rows="3" placeholder="Optional"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Add Expense</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Expense Table -->
+        <div class="mt-5">
+            <h3>Expense List</h3>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Currency</th>
+                        <th>Category</th>
+                        <th>Money Type</th>
+                        <th>Expense Type</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="expenseTableBody">
+                    <!-- Expenses will appear here dynamically -->
+                </tbody>
+            </table>
+            <button id="downloadCSV" class="btn btn-success">Download CSV</button>
+        </div>
+    </div>
+
+    <!-- Edit Expense Modal -->
+    <div class="modal fade" id="editExpenseModal" tabindex="-1" role="dialog" aria-labelledby="editExpenseModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editExpenseModalLabel">Edit Expense</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editExpenseForm">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="editExpenseDate">Date</label>
+                                <input type="date" id="editExpenseDate" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="editExpenseAmount">Amount</label>
+                                <input type="number" min="0" max="10000000" step="0.01" id="editExpenseAmount" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="editExpenseCurrency">Currency</label>
+                                <select id="editExpenseCurrency" class="form-control">
+                                    <option value="KHR">Riel (៛)</option>
+                                    <option value="USD">USD ($)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="editExpenseCategory">Category</label>
+                                <select id="editExpenseCategory" class="form-control">
+                                    <option value="Food">Food</option>
+                                    <option value="Travel">Travel</option>
+                                    <option value="Utilities">Utilities</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="editExpenseMoneyType">Money Type</label>
+                                <select id="editExpenseMoneyType" class="form-control">
+                                    <option value="Cash">Cash</option>
+                                    <option value="Bank">Bank</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="editExpenseType">Expense Type</label>
+                                <select id="editExpenseType" class="form-control">
+                                    <option value="Cash">Cash</option>
+                                    <option value="Bank">Bank</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editExpenseNote">Description</label>
+                            <textarea id="editExpenseNote" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Update Expense</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and Custom JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
