@@ -92,8 +92,6 @@ function addExpense(event) {
     const moneyType = document.getElementById("expenseMoneyType").value;
     const expenseType = document.getElementById("expenseType").value;
     const note = document.getElementById("expenseNote").value;
-    const recurring = document.getElementById("expenseRecurring").value;
-
     const expense = { 
         date, 
         amount, 
@@ -102,7 +100,6 @@ function addExpense(event) {
         moneyType, 
         expenseType, 
         note, 
-        recurring,
         id: Date.now() // Unique ID for each expense
     };
 
@@ -171,12 +168,7 @@ function updateExpenseTable() {
             <td>${expense.moneyType === 'Cash' ? 'Self-Money' : 'House Money'}</td>
             <td>${expense.expenseType}</td>
             <td>${expense.note || '-'}</td>
-            <td>
-                ${expense.recurring !== 'No' ? 
-                    `<span class="badge badge-info">${expense.recurring}</span>` : 
-                    '<span class="text-muted">One-time</span>'
-                }
-            </td>
+            <!-- Recurring column removed -->
             <td>
                 <button class="btn btn-warning btn-sm" onclick="openEditModal(${originalIndex})">
                     Edit
@@ -463,7 +455,7 @@ function deleteCategory(index) {
 
 // Export functions
 function downloadCSV() {
-    let csvContent = "Date,Amount,Currency,Category,Money Type,Expense Type,Description,Recurring\n";
+    let csvContent = "Date,Amount,Currency,Category,Money Type,Expense Type,Description\n";
 
     expenses.forEach(expense => {
         const row = [
@@ -473,8 +465,7 @@ function downloadCSV() {
             expense.category,
             expense.moneyType,
             expense.expenseType,
-            `"${expense.note.replace(/"/g, '""')}"`,
-            expense.recurring
+            `"${expense.note.replace(/"/g, '""')}"`
         ];
         csvContent += row.join(',') + '\n';
     });
@@ -572,7 +563,6 @@ function openEditModal(index) {
     document.getElementById("editExpenseMoneyType").value = expense.moneyType;
     document.getElementById("editExpenseType").value = expense.expenseType;
     document.getElementById("editExpenseNote").value = expense.note;
-    document.getElementById("editExpenseRecurring").value = expense.recurring || 'No';
 
     $('#editExpenseModal').modal('show');
 }
@@ -588,7 +578,6 @@ function updateExpense(event) {
         moneyType: document.getElementById("editExpenseMoneyType").value,
         expenseType: document.getElementById("editExpenseType").value,
         note: document.getElementById("editExpenseNote").value,
-        recurring: document.getElementById("editExpenseRecurring").value,
         id: expenses[currentEditIndex].id
     };
 

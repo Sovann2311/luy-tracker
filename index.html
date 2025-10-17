@@ -136,25 +136,19 @@
             <div class="card-body">
                 <form id="expenseForm">
                     <div class="form-row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="expenseDate">Date</label>
                             <input type="date" id="expenseDate" class="form-control" required>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="expenseAmount">Amount</label>
                             <input type="number" min="0" max="10000000" step="0.01" id="expenseAmount" class="form-control" placeholder="Enter amount" required>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="expenseCurrency">Currency</label>
                             <select id="expenseCurrency" class="form-control">
                                 <option value="USD">USD ($)</option>
                                 <option value="KHR">Riel (៛)</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="expenseCategory">Category</label>
-                            <select id="expenseCategory" class="form-control">
-                                <option value="" selected disabled>Please select</option>
                             </select>
                         </div>
                     </div>
@@ -175,13 +169,10 @@
                                 <option value="Bank">Bank</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="expenseRecurring">Recurring</label>
-                            <select id="expenseRecurring" class="form-control">
-                                <option value="No">One-time</option>
-                                <option value="Daily">Daily</option>
-                                <option value="Weekly">Weekly</option>
-                                <option value="Monthly">Monthly</option>
+                         <div class="form-group col-md-4">
+                            <label for="expenseCategory">Category</label>
+                            <select id="expenseCategory" class="form-control">
+                                <option value="" selected disabled>Please select</option>
                             </select>
                         </div>
                     </div>
@@ -222,7 +213,7 @@
                             <th>Money Type</th>
                             <th>Type</th>
                             <th>Description</th>
-                            <th>Recurring</th>
+                            <!-- Recurring column removed -->
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -316,15 +307,6 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="editExpenseRecurring">Recurring</label>
-                                <select id="editExpenseRecurring" class="form-control">
-                                    <option value="No">One-time</option>
-                                    <option value="Daily">Daily</option>
-                                    <option value="Weekly">Weekly</option>
-                                    <option value="Monthly">Monthly</option>
-                                </select>
-                            </div>
                         </div>
                         <div class="form-group">
                             <label for="editExpenseNote">Description</label>
