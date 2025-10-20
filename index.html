@@ -182,11 +182,21 @@
             </div>
             
             <div class="card-footer">
-                <button id="downloadCSV" class="btn btn-success mr-2">📥 Download CSV</button>
-                <button id="downloadPDF" class="btn btn-danger mr-2">📥 Download PDF</button>
-                <button id="importData" class="btn btn-info mr-2">📤 Import Data</button>
-                <input type="file" id="importFile" style="display: none;" accept=".xlsx, .xls, .csv">
-                <button id="clearAll" class="btn btn-outline-danger" onclick="clearAllExpenses()">🗑️ Clear All</button>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-lg-3 mb-2">
+                        <button id="downloadCSV" class="btn btn-success btn-block">📥 Download CSV</button>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-3 mb-2">
+                        <button id="downloadPDF" class="btn btn-danger btn-block">📥 Download PDF</button>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-3 mb-2">
+                        <button id="importData" class="btn btn-info btn-block">📤 Import Data</button>
+                        <input type="file" id="importFile" style="display: none;" accept=".xlsx, .xls, .csv">
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-3 mb-2">
+                        <button id="clearAll" class="btn btn-outline-danger btn-block" onclick="clearAllExpenses()">🗑️ Clear All</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
