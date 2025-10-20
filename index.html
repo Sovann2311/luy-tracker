@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luy Tracker - Smart Money Management</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- App Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand font-weight-bold" href="#">
+                💰 Luy Tracker
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-outline-light btn-sm mr-2" onclick="toggleDarkMode()">
+                            🌙 Dark Mode
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-light btn-sm" onclick="openCategoryModal()">
+                            📁 Manage Categories
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <!-- Dashboard Summary -->
+        <div class="row mb-4 justify-content-center">
+            <div class="col-md-3">
+                <div class="stat-card bg-primary text-white">
+                    <h6>Total Expenses</h6>
+                    <h3 id="totalExpenses">$0.00</h3>
+                    <small>This Month</small>
+                </div>
+            </div>
+            <!-- Remaining Budget stat removed -->
+            <div class="col-md-3">
+                <div class="stat-card bg-info text-white">
+                    <h6>Daily Average</h6>
+                    <h3 id="dailyAverage">$0.00</h3>
+                    <small>This Month</small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card bg-warning text-white">
+                    <h6>Largest Expense</h6>
+                    <h3 id="largestExpense">$0.00</h3>
+                    <small>This Month</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>Expenses by Category</h6>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="categoryChart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>Monthly Trend</h6>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="monthlyChart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Budget Setting -->
+        <!-- Monthly Budget removed -->
+
+        <!-- Expense Form -->
+        <div class="card mb-4">
+            <div class="card-header">Add New Expense</div>
+            <div class="card-body">
+                <form id="expenseForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="expenseDate">Date</label>
+                            <input type="date" id="expenseDate" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="expenseAmount">Amount</label>
+                            <input type="number" min="0" max="10000000" step="0.01" id="expenseAmount" class="form-control" placeholder="Enter amount" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="expenseCurrency">Currency</label>
+                            <select id="expenseCurrency" class="form-control">
+                                <option value="USD">USD ($)</option>
+                                <option value="KHR">Riel (៛)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="expenseMoneyType">Money Type</label>
+                            <select id="expenseMoneyType" class="form-control">
+                                <option value="" selected disabled>Please select</option>
+                                <option value="Cash">Self Money</option>
+                                <option value="Bank">House Money</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="expenseType">Expense Type</label>
+                            <select id="expenseType" class="form-control">
+                                <option value="" selected disabled>Please select</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Bank">Bank</option>
+                            </select>
+                        </div>
+                         <div class="form-group col-md-4">
+                            <label for="expenseCategory">Category</label>
+                            <select id="expenseCategory" class="form-control">
+                                <option value="" selected disabled>Please select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="expenseNote">Description</label>
+                        <textarea id="expenseNote" class="form-control" rows="2" placeholder="Optional description"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                        💰 Add Expense
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Filters and Search -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">Expense List</h6>
+                <div class="d-flex">
+                    <input type="text" id="searchExpenses" class="form-control form-control-sm mr-2" placeholder="Search categories">
+                    <select id="filterMonth" class="form-control form-control-sm">
+                        <option value="">All Time</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Expense Table -->
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Money Type</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <!-- Recurring column removed -->
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expenseTableBody">
+                        <!-- Expenses will appear here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="card-footer">
+                <button id="downloadCSV" class="btn btn-success mr-2">📥 Download CSV</button>
+                <button id="downloadPDF" class="btn btn-danger mr-2">📥 Download PDF</button>
+                <button id="importData" class="btn btn-info mr-2">📤 Import Data</button>
+                <input type="file" id="importFile" style="display: none;" accept=".xlsx, .xls, .csv">
+                <button id="clearAll" class="btn btn-outline-danger" onclick="clearAllExpenses()">🗑️ Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Management Modal -->
+    <div id="categoryModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">📁 Manage Categories</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input type="text" id="categoryInput" placeholder="Category Name" class="form-control">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" id="addCategory">Add Category</button>
+                        </div>
+                    </div>
+                    <ul id="categoryList" class="list-group"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Expense Modal -->
+    <div class="modal fade" id="editExpenseModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">✏️ Edit Expense</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editExpenseForm">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="editExpenseDate">Date</label>
+                                <input type="date" id="editExpenseDate" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="editExpenseAmount">Amount</label>
+                                <input type="number" min="0" max="10000000" step="0.01" id="editExpenseAmount" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="editExpenseCurrency">Currency</label>
+                                <select id="editExpenseCurrency" class="form-control">
+                                    <option value="USD">USD ($)</option>
+                                    <option value="KHR">Riel (៛)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="editExpenseCategory">Category</label>
+                                <select id="editExpenseCategory" class="form-control"></select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="editExpenseMoneyType">Money Type</label>
+                                <select id="editExpenseMoneyType" class="form-control">
+                                    <option value="Cash">Self Money</option>
+                                    <option value="Bank">House Money</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="editExpenseType">Expense Type</label>
+                                <select id="editExpenseType" class="form-control">
+                                    <option value="Cash">Cash</option>
+                                    <option value="Bank">Bank</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                        </div>
+                        <div class="form-group">
+                            <label for="editExpenseNote">Description</label>
+                            <textarea id="editExpenseNote" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Update Expense</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and Custom JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- SheetJS for Excel/CSV import -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

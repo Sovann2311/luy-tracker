@@ -1,0 +1,205 @@
+:root {
+  --bg: #fafbfc;
+  --surface: #fff;
+  --text: #000000;
+  --border: #e5e7eb;
+  --primary: #000000;
+  --accent: #f5f5f5;
+}
+
+[data-theme="dark"] {
+  --bg: #181a1b;
+  --surface: #232526;
+  --text: #e5e7eb;
+  --border: #333;
+  --primary: #e5e7eb;
+  --accent: #000000;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  transition: background 0.3s, border 0.3s;
+}
+
+.stat-card {
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+
+.stat-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border-color: #000000;
+}
+
+.stat-card h6 {
+  font-size: 0.95rem;
+  color: #000000;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card h3 {
+  font-size: 1.7rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+
+.stat-card small {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.table {
+  color: var(--text);
+  margin-bottom: 0;
+}
+
+.table thead th {
+  border-bottom: 2px solid var(--border);
+  background-color: var(--surface);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0,123,255,0.05);
+}
+
+.form-control, .form-select {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: var(--surface);
+  border-color: var(--primary);
+  color: var(--text);
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+.btn {
+  border-radius: 6px;
+  font-weight: 500;
+  box-shadow: none;
+  transition: background 0.2s, border 0.2s;
+}
+
+.btn:hover {
+  box-shadow: none;
+}
+
+.progress {
+  background-color: var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background: linear-gradient(45deg, var(--primary), var(--info));
+  transition: width 0.6s ease;
+}
+
+.modal-content {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border);
+}
+
+.list-group-item {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+}
+
+/* Animation for new expenses */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.expense-row {
+  animation: slideIn 0.3s ease;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .stat-card h3 {
+    font-size: 1.4rem;
+  }
+  
+  .table-responsive {
+    font-size: 0.9rem;
+  }
+  
+  .card-header .d-flex {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .card-header .d-flex > * {
+    width: 100%;
+  }
+}
+
+/* Chart container styling */
+.chart-container {
+  position: relative;
+  height: 250px;
+  width: 100%;
+}
+
+/* Loading animation */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Success animation */
+@keyframes successFlash {
+  0%, 100% { background-color: var(--surface); }
+  50% { background-color: rgba(40, 167, 69, 0.2); }
+}
+
+.success-flash {
+  animation: successFlash 1s ease;
+}
