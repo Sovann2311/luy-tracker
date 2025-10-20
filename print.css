@@ -1,0 +1,30 @@
+/* /Users/macbookpro/Documents/Self Project/Luy Tracker/print.css */
+
+@media print {
+    body {
+        font-size: 10pt;
+        background-color: #fff !important; /* Ensure white background for printing */
+    }
+
+    /* Hide elements that are not needed for the PDF report */
+    .navbar,
+    .card-header:has(> #expenseForm), /* Hides "Add New Expense" card */
+    .card-body:has(> #expenseForm),
+    .card-header:has(> .d-flex), /* Hides the filter/search bar header */
+    .no-print, /* Hides the footer with action buttons */
+    #editExpenseModal,
+    #categoryModal,
+    .modal-backdrop {
+        display: none !important;
+    }
+
+    /* Ensure charts and tables take up full width */
+    .col-md-6, .col-md-3 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .container {
+        max-width: 100%;
+    }
+}

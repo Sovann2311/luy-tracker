@@ -1,7 +1,6 @@
 // Enhanced Luy Tracker with Dashboard, Budgeting, and Analytics
 
 let expenses = [];
-let categories = ['Food', 'Travel', 'Utilities', 'Entertainment', 'Shopping', 'Healthcare'];
 let currentEditIndex = null;
 
 // Exchange rates (simplified - in real app, use API)
@@ -116,6 +115,7 @@ function addExpense(event) {
     saveAllData();
     updateExpenseTable();
     updateDashboard();
+    updateMonthFilter(); // Update filter in case a new month was added
     updateCharts();
     
     // Success animation
@@ -205,6 +205,11 @@ function updateDashboard() {
         return sum + convertCurrency(expense.amount, expense.currency, 'USD');
     }, 0);
 
+    // Calculate all-time total
+    const allTimeTotalUSD = expenses.reduce((sum, expense) => {
+        return sum + convertCurrency(expense.amount, expense.currency, 'USD');
+    }, 0);
+
     const dailyAverage = totalExpensesUSD / new Date().getDate();
     const largestExpense = Math.max(...currentMonthExpenses.map(expense => 
         convertCurrency(expense.amount, expense.currency, 'USD')
@@ -212,6 +217,7 @@ function updateDashboard() {
 
     // Update DOM
     document.getElementById("totalExpenses").textContent = `$${totalExpensesUSD.toFixed(2)}`;
+    document.getElementById("allTimeTotal").textContent = `$${allTimeTotalUSD.toFixed(2)}`;
     document.getElementById("dailyAverage").textContent = `$${dailyAverage.toFixed(2)}`;
     document.getElementById("largestExpense").textContent = `$${largestExpense.toFixed(2)}`;
     
@@ -279,17 +285,18 @@ function updateCharts() {
 }
 
 function updateCategoryChart() {
-    const currentMonth = new Date().toISOString().slice(0, 7);
-    const currentMonthExpenses = expenses.filter(expense => 
-        expense.date.startsWith(currentMonth)
-    );
+    const filterMonth = document.getElementById("filterMonth").value;
+
+    const filteredExpenses = expenses.filter(expense => {
+        return !filterMonth || expense.date.startsWith(filterMonth);
+    });
 
     const categoryTotals = {};
     categories.forEach(category => {
         categoryTotals[category] = 0;
     });
 
-    currentMonthExpenses.forEach(expense => {
+    filteredExpenses.forEach(expense => {
         const amountUSD = convertCurrency(expense.amount, expense.currency, 'USD');
         categoryTotals[expense.category] = (categoryTotals[expense.category] || 0) + amountUSD;
     });
@@ -386,16 +393,45 @@ function updateCategoryList() {
     categories.forEach((category, index) => {
         const listItem = document.createElement("li");
         listItem.className = "list-group-item d-flex justify-content-between align-items-center";
-        listItem.textContent = category;
         
+        const categoryNameSpan = document.createElement('span');
+        categoryNameSpan.textContent = category;
+
+        const buttonGroup = document.createElement('div');
+
+        // Move Up button
+        const upButton = document.createElement('button');
+        upButton.innerHTML = '&#9650;'; // Up arrow
+        upButton.className = 'btn btn-light btn-sm';
+        upButton.disabled = index === 0;
+        upButton.onclick = () => moveCategory(index, -1);
+        buttonGroup.appendChild(upButton);
+
+        // Move Down button
+        const downButton = document.createElement('button');
+        downButton.innerHTML = '&#9660;'; // Down arrow
+        downButton.className = 'btn btn-light btn-sm ml-1';
+        downButton.disabled = index === categories.length - 1;
+        downButton.onclick = () => moveCategory(index, 1);
+        buttonGroup.appendChild(downButton);
+
+        // Delete button
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
-        deleteButton.className = "btn btn-danger btn-sm";
+        deleteButton.className = "btn btn-danger btn-sm ml-2";
         deleteButton.onclick = () => deleteCategory(index);
+        buttonGroup.appendChild(deleteButton);
 
-        listItem.appendChild(deleteButton);
+        listItem.appendChild(categoryNameSpan);
+        listItem.appendChild(buttonGroup);
         categoryList.appendChild(listItem);
     });
+}
+
+function moveCategory(index, direction) {
+    const newIndex = index + direction;
+    [categories[index], categories[newIndex]] = [categories[newIndex], categories[index]]; // Swap elements
+    saveAllDataAndRefresh();
 }
 
 function deleteCategory(index) {
@@ -409,11 +445,15 @@ function deleteCategory(index) {
     }
     
     categories.splice(index, 1);
+    saveAllDataAndRefresh();
+}
+
+function saveAllDataAndRefresh() {
     saveAllData();
     updateCategoryList();
     updateCategorySelects();
     updateExpenseTable();
-    updateCharts();
+    updateCharts(); // This ensures chart colors update with reordering
 }
 
 // Export functions
@@ -421,12 +461,13 @@ function downloadCSV() {
     let csvContent = "Date,Amount,Currency,Category,Money Type,Expense Type,Description\n";
 
     expenses.forEach(expense => {
+        const moneyTypeDisplay = expense.moneyType === 'Cash' ? 'Self-Money' : 'House Money';
         const row = [
             expense.date,
             expense.amount,
             expense.currency,
             expense.category,
-            expense.moneyType,
+            moneyTypeDisplay,
             expense.expenseType,
             `"${expense.note.replace(/"/g, '""')}"`
         ];
@@ -617,6 +658,7 @@ function importData(event) {
             expenses.push(...newExpenses);
             saveAllData();
             updateExpenseTable();
+            updateMonthFilter(); // Ensure new months from import are in the filter
             updateDashboard();
             updateCharts();
             alert(`${newExpenses.length} expenses imported successfully!`);

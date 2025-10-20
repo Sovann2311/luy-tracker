@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- App Styles -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -42,22 +43,28 @@
         <div class="row mb-4 justify-content-center">
             <div class="col-md-3">
                 <div class="stat-card bg-primary text-white">
-                    <h6>Total Expenses</h6>
+                    <h6><strong>Total Expenses</strong></h6>
                     <h3 id="totalExpenses">$0.00</h3>
                     <small>This Month</small>
                 </div>
             </div>
-            <!-- Remaining Budget stat removed -->
+            <div class="col-md-3">
+                <div class="stat-card bg-success text-white">
+                    <h6><strong>All-Time Total</strong></h6>
+                    <h3 id="allTimeTotal">$0.00</h3>
+                    <small>Since Beginning</small>
+                </div>
+            </div>
             <div class="col-md-3">
                 <div class="stat-card bg-info text-white">
-                    <h6>Daily Average</h6>
+                    <h6><strong>Daily Average</strong></h6>
                     <h3 id="dailyAverage">$0.00</h3>
                     <small>This Month</small>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stat-card bg-warning text-white">
-                    <h6>Largest Expense</h6>
+                    <h6><strong>Largest Expense</strong></h6>
                     <h3 id="largestExpense">$0.00</h3>
                     <small>This Month</small>
                 </div>
@@ -91,7 +98,7 @@
         <!-- Budget Setting -->
         <!-- Monthly Budget removed -->
 
-        <!-- Expense Form -->
+        <!-- Expense Form (will be hidden on print) -->
         <div class="card mb-4">
             <div class="card-header">Add New Expense</div>
             <div class="card-body">
@@ -148,7 +155,7 @@
             </div>
         </div>
 
-        <!-- Filters and Search -->
+        <!-- Filters and Search (header will be hidden on print) -->
         <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h6 class="mb-0">Expense List</h6>
@@ -181,7 +188,7 @@
                 </table>
             </div>
             
-            <div class="card-footer">
+            <div class="card-footer no-print">
                 <div class="row">
                     <div class="col-12 col-sm-6 col-lg-3 mb-2">
                         <button id="downloadCSV" class="btn btn-success btn-block">📥 Download CSV</button>
