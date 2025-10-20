@@ -2,7 +2,7 @@
 
 let expenses = [];
 let currentEditIndex = null;
-let categories = [];
+let categories = ['Food', 'Transport', 'Utilities', 'Entertainment', 'Health', 'Shopping', 'Education', 'Travel', 'Others'];
 
 // Exchange rates (simplified - in real app, use API)
 const exchangeRates = {
