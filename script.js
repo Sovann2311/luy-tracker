@@ -38,8 +38,11 @@ function loadAllData() {
     const storedExpenses = localStorage.getItem("expenses");
     const storedCategories = localStorage.getItem("categories");
     if (storedExpenses) expenses = JSON.parse(storedExpenses);
-    if (storedCategories) categories = JSON.parse(storedCategories);
     
+    if (storedCategories) {
+        const parsedCategories = JSON.parse(storedCategories);
+        if (parsedCategories.length > 0) categories = parsedCategories;
+    }
     
     updateCategorySelects();
     updateExpenseTable();
