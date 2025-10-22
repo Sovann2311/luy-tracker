@@ -16,7 +16,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand font-weight-bold" href="#">
-                Luy Tracker
+                Luy Tracker Version 1
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -99,7 +99,7 @@
         <!-- Monthly Budget removed -->
 
         <!-- Expense Form (will be hidden on print) -->
-        <div class="card mb-4">
+        <div class="card mb-4 no-print">
             <div class="card-header">Add New Expense</div>
             <div class="card-body">
                 <form id="expenseForm">
@@ -179,7 +179,8 @@
                             <th>Type</th>
                             <th>Description</th>
                             <!-- Recurring column removed -->
-                            <th>Actions</th>
+                            <th class="no-print">Actions</th>
+                            <!-- <th class="no-print">Actions</th> -->
                         </tr>
                     </thead>
                     <tbody id="expenseTableBody">
