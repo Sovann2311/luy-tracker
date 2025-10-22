@@ -184,7 +184,7 @@ function updateExpenseTable() {
             <td>${expense.expenseType}</td>
             <td>${expense.note || '-'}</td>
             <!-- Recurring column removed -->
-            <td>
+            <td class="no-print">
                 <button class="btn btn-warning btn-sm" onclick="openEditModal(${originalIndex})">
                     Edit
                 </button>

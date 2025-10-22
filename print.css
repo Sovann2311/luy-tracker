@@ -8,9 +8,7 @@
 
     /* Hide elements that are not needed for the PDF report */
     .navbar,
-    .card-header:has(> #expenseForm), /* Hides "Add New Expense" card */
-    .card-body:has(> #expenseForm),
-    .card-header:has(> .d-flex), /* Hides the filter/search bar header */
+    .card-header .d-flex, /* Hides the filter/search bar header */
     .no-print, /* Hides the footer with action buttons */
     #editExpenseModal,
     #categoryModal,
